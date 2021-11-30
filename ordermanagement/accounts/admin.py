@@ -2,11 +2,35 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 
+from functools import reduce
+
+from transactions.models import Order, PaymentTransactions
+
 
 class CustomUserAdmin(UserAdmin):
 
     model = get_user_model()
-    list_display = ("id", "name", "email", "is_consumer", "is_superuser", "is_staff", "is_active", "date_joined")
+
+    #custom methods to get order data along with user
+    def number_of_orders(self, obj):
+        return Order.objects.filter(user=obj).count()
+    
+    def total_amount(self, obj):
+        orders = Order.objects.filter(user=obj)
+        return reduce(lambda a,b:a+b, map(lambda x:x.total_payable_amount, list(orders)), 0.0)
+    
+    def total_payed_amount(self, obj):
+        orders_id_list = Order.objects.filter(user=obj).values_list('id')
+        transactions = PaymentTransactions.objects.filter(order__id__in=orders_id_list)
+        return reduce(lambda a,b:a+b, map(lambda x:x.current_instalment_amount, list(transactions)), 0.0)
+    
+    def total_pending_amount(self, obj):
+        total_amount = self.total_amount(obj)
+        total_payed_amount = self.total_payed_amount(obj)
+        return total_amount-total_payed_amount
+
+
+    list_display = ("name", "email", "is_consumer", "number_of_orders", "total_amount", "total_payed_amount", "total_pending_amount")
     list_filter = ("is_consumer", "is_superuser", "is_staff", "is_active")
     fieldsets = (
         (None, {"fields": ("name", "email", "date_joined", "password")}),

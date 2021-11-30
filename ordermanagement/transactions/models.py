@@ -29,5 +29,8 @@ class PaymentTransactions(models.Model):
     balance_amount_to_pay = models.FloatField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name_plural = 'Payment transactions'
+
     def __str__(self):
         return "transactionID - " + str(self.pk)
