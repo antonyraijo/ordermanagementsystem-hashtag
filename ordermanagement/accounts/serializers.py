@@ -15,9 +15,9 @@ class CustomUserSerializer(serializers.ModelSerializer):
         """Create and return a new user."""
 
         user = CustomUser(
-            email = validated_data['email'],
-            name = validated_data['name'],
-            is_consumer = True
+            email=validated_data['email'],
+            name=validated_data['name'],
+            is_consumer=True
         )
 
         user.set_password(validated_data['password'])

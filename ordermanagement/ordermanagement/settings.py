@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
 
     'accounts',
+    'transactions',
 ]
 
 MIDDLEWARE = [
@@ -86,6 +87,15 @@ DATABASES = {
 }
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
