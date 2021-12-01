@@ -13,7 +13,7 @@ class ConsumerCreationView(ModelViewSet):
 
     serializer_class = CustomUserSerializer
     queryset = CustomUser.objects.all()
-    http_method_names = ['post']
+    http_method_names = ['post']    # restricted to POST request
 
 
 class LoginView(ObtainAuthToken):

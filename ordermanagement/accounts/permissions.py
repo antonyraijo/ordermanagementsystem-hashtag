@@ -1,6 +1,7 @@
-from rest_framework.permissions import BasePermission, IsAuthenticated
+from rest_framework.permissions import BasePermission
 
 
+# custom permision to permit only 'consumer' type users
 class IsConsumer(BasePermission):
     """
         User permission set for views

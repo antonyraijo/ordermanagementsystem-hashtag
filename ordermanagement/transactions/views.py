@@ -6,14 +6,14 @@ from transactions.serializers import OrderCreationSerializer, PaymentTransaction
 
 
 class OrderCreationView(ModelViewSet):
-    permission_classes = [IsConsumer]
+    permission_classes = [IsConsumer]   # only permited for 'consumer' type users
     serializer_class = OrderCreationSerializer
     queryset = Order.objects.all()
-    http_method_names = ['post']
+    http_method_names = ['post']    # restricted to POST request
 
 
 class PaymentTransactionView(ModelViewSet):
-    permission_classes = [IsConsumer]
+    permission_classes = [IsConsumer]   # only permited for 'consumer' type users
     serializer_class = PaymentTransactionSerializer
     queryset = PaymentTransactions.objects.all()
-    http_method_names = ['post']
+    http_method_names = ['post']    # restricted to POST request

@@ -12,7 +12,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        """Create and return a new user."""
+        """Create and return a new user"""
 
         user = CustomUser(
             email=validated_data['email'],

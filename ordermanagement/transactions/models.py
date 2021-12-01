@@ -3,6 +3,7 @@ from django.db import models
 from accounts.models import CustomUser
 
 
+# product data storing model
 class Product(models.Model):
 
     name = models.CharField(max_length=64, unique=True)
@@ -12,6 +13,7 @@ class Product(models.Model):
         return "{}-{}".format(self.name, self.price)
 
 
+# order data storing model
 class Order(models.Model):
 
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='user_orders')
@@ -23,6 +25,7 @@ class Order(models.Model):
         return "orderID - " + str(self.pk)
 
 
+# order payments data storing model
 class PaymentTransactions(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='payments')
     current_instalment_amount = models.FloatField()

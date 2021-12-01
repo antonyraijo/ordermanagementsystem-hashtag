@@ -18,8 +18,11 @@ class OrderCreationSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def create(self, validated_data):
+        """Create and return order informations"""
+
         products = validated_data['products']
-        payable_amount = reduce(lambda a,b:a+b, map(lambda x:x.price, products)) # total amount for ordered products
+        payable_amount = reduce(lambda a,b:a+b, map(lambda x:x.price, products))    # total amount findout for given products
+
         order = Order(
             user=validated_data['user'],
             total_payable_amount=payable_amount
@@ -44,15 +47,19 @@ class PaymentTransactionSerializer(serializers.ModelSerializer):
         fields = "__all__"
     
     def create(self, validated_data):
+        """Create and return payment transaction datas"""
+
         request = self.context['request']
         order = validated_data['order']
+
+        # user permission checking 
         if request.user != order.user:
             raise serializers.ValidationError({'error': 'Permission denied'})
         
         current_instalment_amount = validated_data['current_instalment_amount']
-        transactions = PaymentTransactions.objects.filter(order=order) # previous transactions of given order
+        transactions = PaymentTransactions.objects.filter(order=order)  # previous transactions queryset of given order
 
-        payed_amount = reduce(lambda a,b:a+b, map(lambda x:x.current_instalment_amount, list(transactions)), 0.0) # find out total payed amount for order
+        payed_amount = reduce(lambda a,b:a+b, map(lambda x:x.current_instalment_amount, list(transactions)), 0.0)   # find out total payed amount for given order
 
         balance_amount_to_pay = order.total_payable_amount - payed_amount
 

@@ -7,6 +7,8 @@ from rest_framework.authtoken.models import Token
 
 from accounts.managers import CustomUserManager
 
+
+# custom user model
 class CustomUser(AbstractUser):
 
     username = None
@@ -24,6 +26,7 @@ class CustomUser(AbstractUser):
         return "{}-{}".format(self.name, self.email)
 
 
+# to create token for every user objects when user object creation time
 @receiver(post_save, sender=CustomUser)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:

@@ -6,7 +6,7 @@ from functools import reduce
 
 from transactions.models import Order, PaymentTransactions
 
-
+# admin site customisations
 class CustomUserAdmin(UserAdmin):
 
     model = get_user_model()
@@ -60,6 +60,7 @@ class CustomUserAdmin(UserAdmin):
 
 
 admin.site.register(get_user_model(), CustomUserAdmin)
+
 admin.site.site_header = "Order Management"
 admin.site.site_title = "Order Management Portal"
 admin.site.index_title = "Welcome To Order Management Portal"
